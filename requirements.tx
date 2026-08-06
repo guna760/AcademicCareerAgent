@@ -1,8 +1,9 @@
 streamlit
-requests
-python-dotenv
 pymupdf
 sentence-transformers
 faiss-cpu
-numpy
+python-dotenv
 tavily-python
+ollama
+numpy
+scikit-learn

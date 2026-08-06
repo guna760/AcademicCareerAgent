@@ -1,43 +1,7 @@
-import os
-import requests
-from dotenv import load_dotenv
-
-
-load_dotenv()
+from llm.openai_client import ask_llm
 
 
 class AcademicAgent:
-
-    def __init__(self):
-
-        self.ollama_url = os.getenv(
-            "OLLAMA_URL",
-            "http://localhost:11434"
-        )
-
-        self.model = os.getenv(
-            "OLLAMA_MODEL",
-            "llama3.2"
-        )
-
-    def ask_llm(self, prompt):
-
-        response = requests.post(
-
-            f"{self.ollama_url}/api/generate",
-
-            json={
-                "model": self.model,
-                "prompt": prompt,
-                "stream": False
-            },
-
-            timeout=600
-        )
-
-        response.raise_for_status()
-
-        return response.json()["response"]
 
     def analyze(
         self,
@@ -48,9 +12,9 @@ class AcademicAgent:
         prompt = f"""
 You are the Academic Analysis Agent.
 
-Analyze the uploaded academic syllabus.
+Analyze the uploaded academic syllabus and produce a structured academic analysis.
 
-Your task is to dynamically identify:
+Your tasks are to identify:
 
 1. Academic domain
 2. Major subjects/modules
@@ -58,33 +22,44 @@ Your task is to dynamically identify:
 4. Learning outcomes
 5. Academic skills
 6. Technical skills
-7. Tools/software mentioned
-8. Knowledge areas
+7. Tools, software, frameworks, or programming languages mentioned
+8. Core knowledge areas
 
-Do NOT assume a fixed domain.
+Instructions:
 
-The syllabus could belong to:
-Computer Science,
-Deep Learning,
-Commerce,
-Renewable Energy,
-Mechanical Engineering,
-Civil Engineering,
-Biotechnology,
-MBA,
-or another field.
+- Use the uploaded syllabus as the primary source.
+- Use the retrieved RAG context only as supporting information.
+- Do NOT assume the syllabus belongs to Computer Science.
+- Dynamically infer the academic domain from the syllabus.
+- The syllabus may belong to Engineering, Commerce, Management,
+  Biotechnology, Renewable Energy, Civil Engineering, Mechanical Engineering,
+  Artificial Intelligence, Deep Learning, or any other discipline.
 
-Use the syllabus as the primary source.
-
-Relevant retrieved syllabus context:
+Retrieved RAG Context:
 
 {rag_context}
 
-FULL SYLLABUS:
+Uploaded Syllabus:
 
 {syllabus_text}
 
-Provide a clear structured analysis.
+Return the output using the following headings:
+
+# Academic Domain
+
+# Major Subjects / Modules
+
+# Important Concepts
+
+# Learning Outcomes
+
+# Academic Skills
+
+# Technical Skills
+
+# Tools / Software / Programming Languages
+
+# Core Knowledge Areas
 """
 
-        return self.ask_llm(prompt)
+        return ask_llm(prompt)

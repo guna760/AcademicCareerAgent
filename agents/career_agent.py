@@ -1,44 +1,7 @@
-import os
-import requests
-from dotenv import load_dotenv
-
-
-load_dotenv()
+from llm.openai_client import ask_llm
 
 
 class CareerAgent:
-
-    def __init__(self):
-
-        self.ollama_url = os.getenv(
-            "OLLAMA_URL",
-            "http://localhost:11434"
-        )
-
-        self.model = os.getenv(
-            "OLLAMA_MODEL",
-            "llama3.2"
-        )
-
-    def ask_llm(self, prompt):
-
-        response = requests.post(
-    f"{self.ollama_url}/api/generate",
-    json={
-        "model": self.model,
-        "prompt": prompt,
-        "stream": False,
-        "options": {
-            "temperature": 0.2,
-            "num_predict": 500
-        }
-    },
-    timeout=600
-)
-
-        response.raise_for_status()
-
-        return response.json()["response"]
 
     def analyze(
         self,
@@ -80,4 +43,4 @@ CURRENT WEB / INDUSTRY INFORMATION:
 Give a structured career intelligence report.
 """
 
-        return self.ask_llm(prompt)
+        return ask_llm(prompt)

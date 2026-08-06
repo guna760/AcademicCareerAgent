@@ -1,10 +1,9 @@
 streamlit
-pymupdf
-sentence-transformers
-faiss-cpu
+openai
 python-dotenv
 tavily-python
-ollama
+sentence-transformers
+faiss-cpu
+PyMuPDF
 numpy
 scikit-learn
-openai

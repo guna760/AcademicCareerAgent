@@ -1,44 +1,7 @@
-import os
-import requests
-from dotenv import load_dotenv
-
-
-load_dotenv()
+from llm.openai_client import ask_llm
 
 
 class RoadmapAgent:
-
-    def __init__(self):
-
-        self.ollama_url = os.getenv(
-            "OLLAMA_URL",
-            "http://localhost:11434"
-        )
-
-        self.model = os.getenv(
-            "OLLAMA_MODEL",
-            "llama3.2"
-        )
-
-    def ask_llm(self, prompt):
-
-        response = requests.post(
-    f"{self.ollama_url}/api/generate",
-    json={
-        "model": self.model,
-        "prompt": prompt,
-        "stream": False,
-        "options": {
-            "temperature": 0.2,
-            "num_predict": 500
-        }
-    },
-    timeout=600
-)
-
-        response.raise_for_status()
-
-        return response.json()["response"]
 
     def generate(
         self,
@@ -50,53 +13,73 @@ class RoadmapAgent:
         prompt = f"""
 You are the Personalized Career Roadmap Agent.
 
-Create a detailed 6-month academic-to-career roadmap.
+Create a comprehensive and realistic 6-month Academic-to-Career Roadmap based on:
 
-The roadmap must be personalized based on:
+- Academic knowledge
+- Industry requirements
+- Current market trends
+- Skill gaps
+- Career opportunities
+- Recommended technologies
+- Certifications
+- Practical learning
 
-Academic knowledge
-+
-Industry requirements
-+
-Skill gaps
-+
-Career goals
+The roadmap must be personalized according to the academic domain.
 
-Create exactly six months.
+Do NOT assume the syllabus belongs to Computer Science.
 
-For EACH month provide:
+The roadmap should adapt dynamically to any academic discipline such as:
+
+- Computer Science
+- Artificial Intelligence
+- Deep Learning
+- Renewable Energy
+- Mechanical Engineering
+- Civil Engineering
+- Electrical Engineering
+- Biotechnology
+- Commerce
+- Management
+- MBA
+- Any other academic field
+
+Create exactly SIX months.
+
+For EACH month include:
 
 Month:
 Main Goal:
-Topics:
-Skills:
-Tools:
+Topics to Learn:
+Technical Skills:
+Tools / Software:
 Practical Tasks:
 Mini Project:
 Expected Outcome:
 
-Also provide:
+After the monthly roadmap, also provide:
 
-1. Final capstone project
-2. Recommended portfolio projects
-3. Recommended certifications
-4. Job preparation
-5. Interview preparation
-6. Portfolio/GitHub recommendations
+1. Final Capstone Project
+2. Portfolio Project Recommendations
+3. Recommended Certifications
+4. Internship Preparation
+5. Resume Preparation
+6. Interview Preparation
+7. GitHub / Portfolio Recommendations
+8. Career Readiness Checklist
 
-ACADEMIC ANALYSIS:
+ACADEMIC ANALYSIS
 
 {academic_analysis}
 
-CAREER ANALYSIS:
+CAREER ANALYSIS
 
 {career_analysis}
 
-CURRENT INDUSTRY INFORMATION:
+CURRENT INDUSTRY INFORMATION
 
 {web_context}
 
-Make the roadmap realistic and domain-specific.
+Return the roadmap in a well-structured and easy-to-read format.
 """
 
-        return self.ask_llm(prompt)
+        return ask_llm(prompt)

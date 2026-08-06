@@ -1,5 +1,4 @@
 streamlit
-openai
 python-dotenv
 tavily-python
 sentence-transformers
@@ -7,3 +6,4 @@ faiss-cpu
 PyMuPDF
 numpy
 scikit-learn
+groq

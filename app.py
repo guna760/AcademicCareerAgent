@@ -40,11 +40,15 @@ personalized 6-month career roadmap.
 
 import os
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
 
-llm_provider = os.getenv("LLM_PROVIDER", "OpenAI")
-llm_model = os.getenv("LLM_MODEL", "gpt-5-mini")
+llm_provider = "Groq"
+llm_model = os.getenv(
+    "GROQ_MODEL",
+    "llama-3.3-70b-versatile"
+)
 
 with st.sidebar:
 
@@ -63,7 +67,7 @@ FAISS
 Web Intelligence:
 Tavily
 
-OpenAI:
+Groq API:
 Enabled
 """)
 

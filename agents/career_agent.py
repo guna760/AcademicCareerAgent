@@ -1,6 +1,4 @@
-from llm.openai_client import ask_llm
-
-
+from llm.groq_client import ask_llm
 class CareerAgent:
 
     def analyze(

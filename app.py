@@ -38,16 +38,21 @@ personalized 6-month career roadmap.
 # SIDEBAR
 # ============================================================
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm_provider = os.getenv("LLM_PROVIDER", "OpenAI")
+llm_model = os.getenv("LLM_MODEL", "gpt-5-mini")
+
 with st.sidebar:
 
-    st.header(
-        "⚙️ System"
-    )
+    st.header("⚙️ System")
 
-    st.info(
-        """
+    st.info(f"""
 LLM:
-Ollama + Llama 3.2
+{llm_provider} - {llm_model}
 
 Embeddings:
 Sentence Transformers
@@ -59,9 +64,8 @@ Web Intelligence:
 Tavily
 
 OpenAI:
-Not required
-"""
-    )
+Enabled
+""")
 
 
 # ============================================================
